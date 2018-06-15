@@ -16,8 +16,8 @@ hostFolder =
     "http://localhost:3000/folders"
 
 
-hostNotes : String
-hostNotes =
+hostNote : String
+hostNote =
     "http://localhost:3000/notes"
 
 
@@ -45,6 +45,10 @@ postUser usr =
         , timeout = Nothing
         , withCredentials = False
         }
+
+
+
+-- *** *** *** FOLDER *** *** ***
 
 
 encondeFolder : Folder -> Encode.Value
@@ -84,6 +88,45 @@ decodeFolder =
 getFolders : Http.Request (List Folder)
 getFolders =
     Http.get (hostFolder ++ "?order=id") decodeFolder
+
+
+encondeNote : Note -> Encode.Value
+encondeNote nt =
+    Encode.object
+        [ ( "folder", Encode.string nt.folder )
+        , ( "content", Encode.string nt.content )
+        ]
+
+
+postNote : Note -> Http.Request ()
+postNote fld =
+    Http.request
+        { method = "POST"
+        , headers = []
+        , url = hostNote
+        , body = Http.jsonBody (encondeNote fld)
+        , expect = Http.expectStringResponse (\_ -> Ok ())
+        , timeout = Nothing
+        , withCredentials = False
+        }
+
+
+decNote : Decode.Decoder Note
+decNote =
+    Decode.map3 Note
+        (Decode.field "id" Decode.int)
+        (Decode.field "folder" Decode.string)
+        (Decode.field "content" Decode.string)
+
+
+decodeNote : Decoder (List Note)
+decodeNote =
+    Decode.list decNote
+
+
+getNotes : Http.Request (List Note)
+getNotes =
+    Http.get (hostNote ++ "?order=id") decodeNote
 
 
 
