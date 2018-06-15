@@ -130,6 +130,7 @@ getNotes =
 
 
 
+-- holi
 -- deleteTarea : Tarea -> Http.Request ()
 -- deleteTarea tar =
 --     Http.request
