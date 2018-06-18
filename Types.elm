@@ -1,8 +1,10 @@
 module Types exposing (..)
 
+import Http
+
 
 type alias Model =
-    { user : String
+    { nickname : String
     , password : String
     , folder : String
     , note : String
@@ -41,7 +43,7 @@ type alias Note =
 
 type CurrentView
     = MainView
-    | ErrorView
+    | ErrorView String
     | FolderView
     | NoteView
     | CreateFolder
@@ -51,11 +53,16 @@ type CurrentView
 
 type Msg
     = Login
+    | Back
     | SignUp
     | NewFolder
     | SubmitFolder
+    | Nickname String
+    | Password String
     | ViewNotes
+    | ViewFolders
     | NewNote
     | SubmitNote
     | Exit
     | ShowNote
+    | RespPost (Result Http.Error ())

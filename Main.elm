@@ -11,6 +11,7 @@ import CreateFolder exposing (..)
 import Html.Attributes as Attr exposing (..)
 import NoteContent exposing (..)
 import CreateNote exposing (..)
+import Http
 
 
 {-| -}
@@ -47,8 +48,8 @@ view model =
             CreateNote ->
                 createNote model
 
-            _ ->
-                encabezado
+            ErrorView error ->
+                errorView error model
         ]
 
 
@@ -78,7 +79,18 @@ update msg model =
             ( { model | currentView = FolderView }, Cmd.none )
 
         SignUp ->
-            ( { model | currentView = FolderView }, Cmd.none )
+            if (model.password /= "") && (model.password /= "") then
+                ( model
+                , Http.send RespPost (postUser (User 0 model.nickname model.password))
+                )
+            else
+                ( model, Cmd.none )
+
+        Nickname nn ->
+            ( { model | nickname = nn }, Cmd.none )
+
+        Password pw ->
+            ( { model | password = pw }, Cmd.none )
 
         ViewNotes ->
             ( { model | currentView = NoteView }, Cmd.none )
@@ -93,10 +105,19 @@ update msg model =
             ( { model | currentView = CreateFolder }, Cmd.none )
 
         Exit ->
-            ( { model | currentView = MainView }, Cmd.none )
+            ( { model | nickname = "", password = "", currentView = MainView }, Cmd.none )
+
+        RespPost (Ok ()) ->
+            ( { model | currentView = FolderView }, Cmd.none )
+
+        RespPost (Err error) ->
+            ( { model | currentView = ErrorView (toString error) }, Cmd.none )
+
+        ViewFolders ->
+            ( { model | currentView = FolderView }, Cmd.none )
 
         _ ->
-            ( model, Cmd.none )
+            ( { model | currentView = FolderView }, Cmd.none )
 
 
 

@@ -46,7 +46,7 @@ showNotes model =
                 , div [ class "center" ]
                     [ div [ class "row" ]
                         [ div [ class "col s2  offset-s4" ]
-                            [ div [ class "btn waves-effect waves-light", onClick (SignUp) ]
+                            [ div [ class "btn waves-effect waves-light", onClick (ViewFolders) ]
                                 [ text "Back" ]
                             ]
                         , div [ class "col s2 " ]

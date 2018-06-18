@@ -22,7 +22,7 @@ noteContent model =
                         ]
                     , div [ class "col s3 " ]
                         [ div
-                            [ class "btn waves-effect waves-light", onClick (SignUp) ]
+                            [ class "btn waves-effect waves-light", onClick (ViewNotes) ]
                             [ text "Back" ]
                         ]
                     ]

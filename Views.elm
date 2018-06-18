@@ -22,9 +22,15 @@ encabezado =
         ]
 
 
-errorView : String -> Html Msg
-errorView error =
-    div [] [ text error ]
+errorView : String -> Model -> Html Msg
+errorView error model =
+    div []
+        [ div []
+            [ text error
+            ]
+        , div [] []
+        , div [ class "color pink lighten-3" ] [ text (toString model) ]
+        ]
 
 
 
