@@ -1,18 +1,17 @@
 module FolderView exposing (..)
 
-import Views exposing (..)
+--import Views exposing (..)
+
 import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
-import Views exposing (..)
 import Html.Events exposing (onClick, onInput)
 
 
 showFolders : Model -> Html Msg
 showFolders model =
     div []
-        [ encabezado
-        , div [ class "row" ]
+        [ div [ class "row" ]
             [ div [ class "col s6 offset-s3" ]
                 [ div [ class "card pink lighten-2", style [ ( "padding", "10px" ) ] ]
                     [ div [ class "card-title", style [ ( "padding", "10px" ) ] ] [ text "Your folders" ]
@@ -37,8 +36,18 @@ showFolders model =
                             ]
                         , div
                             [ class "center" ]
-                            [ div [ class "btn waves-effect waves-light", onClick (Exit) ]
-                                [ text "Log Out" ]
+                            [ div
+                                [ class "row" ]
+                                [ div [ class "col s3 offset-s3" ]
+                                    [ div [ class "btn waves-effect waves-light", onClick (NewFolder) ]
+                                        [ text "Create" ]
+                                    ]
+                                , div
+                                    [ class "col s3" ]
+                                    [ div [ class "btn waves-effect waves-light", onClick (Exit) ]
+                                        [ text "Log Out" ]
+                                    ]
+                                ]
                             ]
                         ]
                     ]

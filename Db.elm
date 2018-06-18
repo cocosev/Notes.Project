@@ -94,6 +94,7 @@ encondeNote : Note -> Encode.Value
 encondeNote nt =
     Encode.object
         [ ( "folder", Encode.string nt.folder )
+        , ( "title", Encode.string nt.title )
         , ( "content", Encode.string nt.content )
         ]
 
@@ -113,9 +114,10 @@ postNote fld =
 
 decNote : Decode.Decoder Note
 decNote =
-    Decode.map3 Note
+    Decode.map4 Note
         (Decode.field "id" Decode.int)
         (Decode.field "folder" Decode.string)
+        (Decode.field "title" Decode.string)
         (Decode.field "content" Decode.string)
 
 

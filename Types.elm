@@ -34,6 +34,7 @@ type alias Folder =
 type alias Note =
     { id : Int
     , folder : String
+    , title : String
     , content : String
     }
 
@@ -45,6 +46,7 @@ type CurrentView
     | NoteView
     | CreateFolder
     | CreateNote
+    | NoteContent
 
 
 type Msg
@@ -56,3 +58,4 @@ type Msg
     | NewNote
     | SubmitNote
     | Exit
+    | ShowNote

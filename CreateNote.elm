@@ -1,4 +1,4 @@
-module MainView exposing (..)
+module CreateNote exposing (..)
 
 import Types exposing (..)
 import Html exposing (..)
@@ -6,41 +6,41 @@ import Html.Attributes as Attr exposing (..)
 import Html.Events exposing (onClick, onInput)
 
 
-mainView : Model -> Html Msg
-mainView model =
+createNote : Model -> Html Msg
+createNote model =
     div []
         [ div [ class "row" ] []
         , div [ class "row" ] []
         , div [ class "row" ]
             [ div [ class "col s6 offset-s3" ]
-                [ div [ class "card pink lighten-4 ", style [ ( "padding", "10px" ) ] ]
-                    [ div [ class "card-title text center" ] [ text "Welcome" ]
-                    , div [ class "card-content text center" ] [ text "Please log in or register to access and write your own notes" ]
+                [ div [ class "card yellow ", style [ ( "padding", "10px" ) ] ]
+                    [ div [ class "card-title text center" ] [ text "New Note" ]
+                    , div [ class "card-content text center" ] [ text "Please write the title and content of your note and click submit" ]
                     , div [ class "row" ]
                         [ div [ class "col s6 offset-s3" ]
                             [ div [ class "input-field" ]
-                                [ input [ id "nickname", type_ "text" ] []
-                                , label [ for "nickname" ] [ text "User Name" ]
+                                [ input [ id "title", type_ "text" ] []
+                                , label [ for "title" ] [ text "User Title" ]
                                 ]
                             ]
                         ]
                     , div [ class "row" ]
                         [ div [ class "col s6 offset-s3" ]
                             [ div [ class "input-field" ]
-                                [ input [ id "password", type_ "password", class "validate" ] []
-                                , label [ for "password" ] [ text "Password" ]
+                                [ input [ id "cnt", type_ "text" ] []
+                                , label [ for "cnt" ] [ text "Content of your note" ]
                                 ]
                             ]
                         ]
                     , div [ class "row" ]
                         [ div [ class "col s2  offset-s4" ]
-                            [ div [ class "btn waves-effect waves-light", onClick (SignUp) ]
-                                [ text "Log In" ]
+                            [ div [ class "btn waves-effect waves-light", onClick (ViewNotes) ]
+                                [ text "Submit" ]
                             ]
                         , div [ class "col s3 " ]
                             [ div
-                                [ class "btn waves-effect waves-light", onClick (SignUp) ]
-                                [ text "Sign Up" ]
+                                [ class "btn waves-effect waves-light", onClick (ViewNotes) ]
+                                [ text "cancel" ]
                             ]
                         ]
                     ]

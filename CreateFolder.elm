@@ -1,46 +1,44 @@
-module MainView exposing (..)
+module CreateFolder exposing (..)
+
+--import FolderView exposing (..)
 
 import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
+
+
+--import Views exposing (..)
+
 import Html.Events exposing (onClick, onInput)
 
 
-mainView : Model -> Html Msg
-mainView model =
+createFolder : Model -> Html Msg
+createFolder model =
     div []
         [ div [ class "row" ] []
         , div [ class "row" ] []
         , div [ class "row" ]
             [ div [ class "col s6 offset-s3" ]
                 [ div [ class "card pink lighten-4 ", style [ ( "padding", "10px" ) ] ]
-                    [ div [ class "card-title text center" ] [ text "Welcome" ]
-                    , div [ class "card-content text center" ] [ text "Please log in or register to access and write your own notes" ]
+                    [ div [ class "card-title text center" ] [ text "New Folder" ]
+                    , div [ class "card-content text center" ] [ text "Please write the title of the folder and click submit" ]
                     , div [ class "row" ]
                         [ div [ class "col s6 offset-s3" ]
                             [ div [ class "input-field" ]
-                                [ input [ id "nickname", type_ "text" ] []
-                                , label [ for "nickname" ] [ text "User Name" ]
-                                ]
-                            ]
-                        ]
-                    , div [ class "row" ]
-                        [ div [ class "col s6 offset-s3" ]
-                            [ div [ class "input-field" ]
-                                [ input [ id "password", type_ "password", class "validate" ] []
-                                , label [ for "password" ] [ text "Password" ]
+                                [ input [ id "folder", type_ "text" ] []
+                                , label [ for "folder" ] [ text "Folder Title" ]
                                 ]
                             ]
                         ]
                     , div [ class "row" ]
                         [ div [ class "col s2  offset-s4" ]
                             [ div [ class "btn waves-effect waves-light", onClick (SignUp) ]
-                                [ text "Log In" ]
+                                [ text "Submit" ]
                             ]
                         , div [ class "col s3 " ]
                             [ div
                                 [ class "btn waves-effect waves-light", onClick (SignUp) ]
-                                [ text "Sign Up" ]
+                                [ text "cancel" ]
                             ]
                         ]
                     ]
