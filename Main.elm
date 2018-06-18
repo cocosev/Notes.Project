@@ -81,7 +81,7 @@ update msg model =
         SignUp ->
             if (model.password /= "") && (model.password /= "") then
                 ( model
-                , Http.send RespPost (postUser (User 0 model.nickname model.password))
+                , Http.send RespPostUser (postUser (User 0 model.nickname model.password))
                 )
             else
                 ( model, Cmd.none )
@@ -107,14 +107,31 @@ update msg model =
         Exit ->
             ( { model | nickname = "", password = "", currentView = MainView }, Cmd.none )
 
-        RespPost (Ok ()) ->
+        RespPostUser (Ok ()) ->
             ( { model | currentView = FolderView }, Cmd.none )
 
-        RespPost (Err error) ->
+        RespPostUser (Err error) ->
             ( { model | currentView = ErrorView (toString error) }, Cmd.none )
 
         ViewFolders ->
             ( { model | currentView = FolderView }, Cmd.none )
+
+        FolderTitle fld ->
+            ( { model | folder = fld }, Cmd.none )
+
+        SubmitFolder ->
+            if (model.password /= "") && (model.password /= "") then
+                ( model
+                , Http.send RespPostFolder (postFolder (Folder 0 model.nickname model.folder))
+                )
+            else
+                ( model, Cmd.none )
+
+        RespPostFolder (Ok ()) ->
+            ( { model | currentView = FolderView }, Cmd.none )
+
+        RespPostFolder (Err error) ->
+            ( { model | currentView = ErrorView (toString error) }, Cmd.none )
 
         _ ->
             ( { model | currentView = FolderView }, Cmd.none )

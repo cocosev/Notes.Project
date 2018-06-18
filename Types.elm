@@ -56,6 +56,7 @@ type Msg
     | Back
     | SignUp
     | NewFolder
+    | FolderTitle String
     | SubmitFolder
     | Nickname String
     | Password String
@@ -65,4 +66,5 @@ type Msg
     | SubmitNote
     | Exit
     | ShowNote
-    | RespPost (Result Http.Error ())
+    | RespPostUser (Result Http.Error ())
+    | RespPostFolder (Result Http.Error ())

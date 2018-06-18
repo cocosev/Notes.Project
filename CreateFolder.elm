@@ -25,19 +25,26 @@ createFolder model =
                     , div [ class "row" ]
                         [ div [ class "col s6 offset-s3" ]
                             [ div [ class "input-field" ]
-                                [ input [ id "folder", type_ "text" ] []
+                                [ input
+                                    [ id "folder"
+                                    , type_ "text"
+                                    , onInput
+                                        FolderTitle
+                                    , Attr.value model.folder
+                                    ]
+                                    []
                                 , label [ for "folder" ] [ text "Folder Title" ]
                                 ]
                             ]
                         ]
                     , div [ class "row" ]
                         [ div [ class "col s2  offset-s4" ]
-                            [ div [ class "btn waves-effect waves-light", onClick (SignUp) ]
+                            [ div [ class "btn waves-effect waves-light", onClick (SubmitFolder) ]
                                 [ text "Submit" ]
                             ]
                         , div [ class "col s3 " ]
                             [ div
-                                [ class "btn waves-effect waves-light", onClick (SignUp) ]
+                                [ class "btn waves-effect waves-light", onClick (ViewFolders) ]
                                 [ text "cancel" ]
                             ]
                         ]
