@@ -35,7 +35,7 @@ type alias Folder =
 
 type alias Note =
     { id : Int
-    , folder : String
+    , folder : Int
     , title : String
     , content : String
     }
@@ -49,6 +49,8 @@ type CurrentView
     | CreateFolder
     | CreateNote
     | NoteContent
+    | TryView (List User)
+    | TryAgainView
 
 
 type Msg
@@ -63,8 +65,11 @@ type Msg
     | ViewNotes
     | ViewFolders
     | NewNote
+    | NoteTitle String
     | SubmitNote
     | Exit
     | ShowNote
+    | RespGetUser (Result Http.Error (List User))
     | RespPostUser (Result Http.Error ())
     | RespPostFolder (Result Http.Error ())
+    | RespPostNote (Result Http.Error ())

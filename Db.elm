@@ -47,6 +47,24 @@ postUser usr =
         }
 
 
+decUser : Decode.Decoder User
+decUser =
+    Decode.map3 User
+        (Decode.field "id" Decode.int)
+        (Decode.field "nickname" Decode.string)
+        (Decode.field "password" Decode.string)
+
+
+decodeUser : Decoder (List User)
+decodeUser =
+    Decode.list decUser
+
+
+getUsers : Model -> Http.Request (List User)
+getUsers model =
+    Http.get (hostUser ++ "?nickname=eq." ++ model.nickname ++ "&password=eq." ++ model.password) decodeUser
+
+
 
 -- *** *** *** FOLDER *** *** ***
 
@@ -93,7 +111,7 @@ getFolders =
 encondeNote : Note -> Encode.Value
 encondeNote nt =
     Encode.object
-        [ ( "folder", Encode.string nt.folder )
+        [ ( "folder", Encode.int nt.folder )
         , ( "title", Encode.string nt.title )
         , ( "content", Encode.string nt.content )
         ]
@@ -116,7 +134,7 @@ decNote : Decode.Decoder Note
 decNote =
     Decode.map4 Note
         (Decode.field "id" Decode.int)
-        (Decode.field "folder" Decode.string)
+        (Decode.field "folder" Decode.int)
         (Decode.field "title" Decode.string)
         (Decode.field "content" Decode.string)
 

@@ -34,7 +34,7 @@ mainView model =
                         ]
                     , div [ class "row" ]
                         [ div [ class "col s2  offset-s4" ]
-                            [ div [ class "btn waves-effect waves-light", onClick (SignUp) ]
+                            [ div [ class "btn waves-effect waves-light", onClick (Login) ]
                                 [ text "Log In" ]
                             ]
                         , div [ class "col s3 " ]

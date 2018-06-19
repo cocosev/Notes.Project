@@ -27,7 +27,7 @@ createNote model =
                     , div [ class "row" ]
                         [ div [ class "col s6 offset-s3" ]
                             [ div [ class "input-field" ]
-                                [ input [ id "cnt", type_ "text" ] []
+                                [ input [ id "cnt", type_ "text", onInput NoteTitle, Attr.value model.note ] []
                                 , label [ for "cnt" ] [ text "Content of your note" ]
                                 ]
                             ]

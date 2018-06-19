@@ -33,6 +33,32 @@ errorView error model =
         ]
 
 
+tryView : a -> Model -> Html Msg
+tryView a model =
+    div []
+        [ div [ class "color pink lighten-3" ] [ text (toString a) ]
+        , div [] [ text (toString model) ]
+        ]
+
+
+tryAgainView : Model -> Html Msg
+tryAgainView model =
+    div []
+        [ div [ class "row" ] []
+        , div [ class "row" ] []
+        , div [ class "row" ]
+            [ div [ class "col s6 offset-s3" ]
+                [ div [ class "card pink lighten-4 ", style [ ( "padding", "10px" ) ] ]
+                    [ div [ class "card-title text center" ] [ text "We are sorry" ]
+                    , div [ class "card-content text center" ]
+                        [ text "The user name that you are trying to introduce does not exist or maybe your password is incorrect"
+                        ]
+                    ]
+                ]
+            ]
+        ]
+
+
 
 -- tareasPendientes : Model -> Html Msg
 -- tareasPendientes model =

@@ -50,6 +50,12 @@ view model =
 
             ErrorView error ->
                 errorView error model
+
+            TryView ls ->
+                tryView ls model
+
+            TryAgainView ->
+                tryAgainView model
         ]
 
 
@@ -76,10 +82,35 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Login ->
-            ( { model | currentView = FolderView }, Cmd.none )
+            ( model
+            , Http.send RespGetUser (getUsers model)
+            )
+
+        RespGetUser (Ok usr) ->
+            if usr /= [] then
+                ( { model
+                    | currentView = TryView usr
+                  }
+                , Cmd.none
+                )
+            else
+                ( { model
+                    | currentView = TryAgainView
+                  }
+                , Cmd.none
+                )
+
+        RespGetUser (Err error) ->
+            ( { model
+                | nickname = ""
+                , password = ""
+                , currentView = ErrorView (toString error)
+              }
+            , Cmd.none
+            )
 
         SignUp ->
-            if (model.password /= "") && (model.password /= "") then
+            if (model.nickname /= "") && (model.password /= "") then
                 ( model
                 , Http.send RespPostUser (postUser (User 0 model.nickname model.password))
                 )
@@ -119,10 +150,21 @@ update msg model =
         FolderTitle fld ->
             ( { model | folder = fld }, Cmd.none )
 
+        NoteTitle nt ->
+            ( { model | note = nt }, Cmd.none )
+
         SubmitFolder ->
-            if (model.password /= "") && (model.password /= "") then
+            if (model.folder /= "") then
                 ( model
                 , Http.send RespPostFolder (postFolder (Folder 0 model.nickname model.folder))
+                )
+            else
+                ( model, Cmd.none )
+
+        SubmitNote ->
+            if (model.note /= "") then
+                ( model
+                , Http.send RespPostNote (postNote (Note 0 0 model.nickname model.folder))
                 )
             else
                 ( model, Cmd.none )
@@ -133,25 +175,17 @@ update msg model =
         RespPostFolder (Err error) ->
             ( { model | currentView = ErrorView (toString error) }, Cmd.none )
 
+        RespPostNote (Ok ()) ->
+            ( { model | currentView = NoteView }, Cmd.none )
+
+        RespPostNote (Err error) ->
+            ( { model | currentView = ErrorView (toString error) }, Cmd.none )
+
         _ ->
             ( { model | currentView = FolderView }, Cmd.none )
 
 
 
--- NewFolder ->
---     ({ model | currentView = CreateFolder })
---
--- SubmitFolder ->
---     ( model, Cmd.none )
---
--- NewNote ->
---     ({ model | currentView = CreateNote })
---
--- SubmitNote ->
---     ( model, Cmd.none )
---
--- Exit ->
---     ({ model | currentView = MainView })
 -- SUBSCRIPTIONS
 
 
