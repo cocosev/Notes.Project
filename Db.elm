@@ -66,7 +66,7 @@ getUsers model =
 
 
 
--- *** *** *** FOLDER *** *** ***
+-- *** *** *** F O L D E R *** *** ***
 
 
 encondeFolder : Folder -> Encode.Value
@@ -103,9 +103,11 @@ decodeFolder =
     Decode.list decFolder
 
 
-getFolders : Http.Request (List Folder)
-getFolders =
-    Http.get (hostFolder ++ "?order=id") decodeFolder
+getFolders : Model -> Http.Request (List Folder)
+getFolders model =
+    Http.get
+        (hostFolder ++ "?creator=eq." ++ model.nickname)
+        decodeFolder
 
 
 encondeNote : Note -> Encode.Value
@@ -115,6 +117,10 @@ encondeNote nt =
         , ( "title", Encode.string nt.title )
         , ( "content", Encode.string nt.content )
         ]
+
+
+
+-- *** *** *** N O T E *** *** ***
 
 
 postNote : Note -> Http.Request ()

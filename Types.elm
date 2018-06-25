@@ -73,3 +73,4 @@ type Msg
     | RespPostUser (Result Http.Error ())
     | RespPostFolder (Result Http.Error ())
     | RespPostNote (Result Http.Error ())
+    | RespGetFolder (Result Http.Error (List Folder))

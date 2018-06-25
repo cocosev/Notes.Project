@@ -88,10 +88,8 @@ update msg model =
 
         RespGetUser (Ok usr) ->
             if usr /= [] then
-                ( { model
-                    | currentView = TryView usr
-                  }
-                , Cmd.none
+                ( model
+                , Http.send RespGetFolder (getFolders model)
                 )
             else
                 ( { model
@@ -136,7 +134,7 @@ update msg model =
             ( { model | currentView = CreateFolder }, Cmd.none )
 
         Exit ->
-            ( { model | nickname = "", password = "", currentView = MainView }, Cmd.none )
+            ( { model | nickname = "", password = "", folders = [], currentView = MainView }, Cmd.none )
 
         RespPostUser (Ok ()) ->
             ( { model | currentView = FolderView }, Cmd.none )
@@ -179,6 +177,12 @@ update msg model =
             ( { model | currentView = NoteView }, Cmd.none )
 
         RespPostNote (Err error) ->
+            ( { model | currentView = ErrorView (toString error) }, Cmd.none )
+
+        RespGetFolder (Ok ls) ->
+            ( { model | folders = ls, currentView = FolderView }, Cmd.none )
+
+        RespGetFolder (Err error) ->
             ( { model | currentView = ErrorView (toString error) }, Cmd.none )
 
         _ ->

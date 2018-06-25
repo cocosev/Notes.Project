@@ -53,6 +53,7 @@ tryAgainView model =
                     , div [ class "card-content text center" ]
                         [ text "The user name that you are trying to introduce does not exist or maybe your password is incorrect"
                         ]
+                    , div [] [ text (toString model) ]
                     ]
                 ]
             ]

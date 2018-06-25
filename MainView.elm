@@ -19,7 +19,15 @@ mainView model =
                     , div [ class "row" ]
                         [ div [ class "col s6 offset-s3" ]
                             [ div [ class "input-field" ]
-                                [ input [ id "nickname", type_ "text", onInput Nickname, Attr.value model.nickname ] []
+                                [ input
+                                    [ id "nickname"
+                                    , type_ "text"
+                                    , onInput Nickname
+                                    , Attr.value model.nickname
+
+                                    -- HOLA PARA QUÉ SIRVE ESTO
+                                    ]
+                                    []
                                 , label [ for "nickname" ] [ text "User Name" ]
                                 ]
                             ]
