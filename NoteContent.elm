@@ -6,14 +6,14 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 
 
-noteContent : Model -> Html Msg
-noteContent model =
+noteContent : Note -> Html Msg
+noteContent note =
     div [ class "row" ]
         [ div [ class "col s6 offset-s3" ]
             [ div [ class "card yellow", style [ ( "padding", "10px" ) ] ]
-                [ div [ class "card-title", style [ ( "padding", "10px" ) ] ] [ text "Note Title" ]
+                [ div [ class "card-title", style [ ( "padding", "10px" ) ] ] [ text note.title ]
                 , div [ class "card-content" ]
-                    [ text " This is the content of your note, what you wrote is stored here waiting for you to read it, I hope you like it baby"
+                    [ text note.content
                     ]
                 , div [ class "row" ]
                     [ div [ class "col s2  offset-s4" ]

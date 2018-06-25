@@ -14,34 +14,20 @@ showNotes model =
                 [ div [ class "card-title", style [ ( "padding", "10px" ) ] ] [ text "Your Notes" ]
                 , div [ class "card-content" ]
                     [ ul [ class "collection" ]
-                        [ li [ class "collection-item yellow lighten-3" ]
-                            [ text "Note 1"
-                            , a [ class "secondary-content" ]
-                                [ a [ onClick ShowNote ] [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "details" ] ]
-                                , a
-                                    []
-                                    [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "delete" ] ]
-                                ]
-                            ]
-                        , li [ class "collection-item yellow lighten-3" ]
-                            [ text "Note 2"
-                            , a [ class "secondary-content" ]
-                                [ a [ onClick ShowNote ] [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "details" ] ]
-                                , a
-                                    []
-                                    [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "delete" ] ]
-                                ]
-                            ]
-                        , li [ class "collection-item yellow lighten-3" ]
-                            [ text "Note 2"
-                            , a [ class "secondary-content" ]
-                                [ a [ onClick ShowNote ] [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "details" ] ]
-                                , a
-                                    []
-                                    [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "delete" ] ]
-                                ]
-                            ]
-                        ]
+                        (List.map
+                            (\nt ->
+                                li [ class "collection-item yellow lighten-3" ]
+                                    [ text nt.title
+                                    , a [ class "secondary-content" ]
+                                        [ a [ onClick (ShowNote nt) ] [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "details" ] ]
+                                        , a
+                                            []
+                                            [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "delete" ] ]
+                                        ]
+                                    ]
+                            )
+                            model.notes
+                        )
                     ]
                 , div [ class "center" ]
                     [ div [ class "row" ]

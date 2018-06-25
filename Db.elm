@@ -110,17 +110,17 @@ getFolders model =
         decodeFolder
 
 
+
+-- *** *** *** N O T E *** *** ***
+
+
 encondeNote : Note -> Encode.Value
 encondeNote nt =
     Encode.object
         [ ( "folder", Encode.int nt.folder )
         , ( "title", Encode.string nt.title )
-        , ( "content", Encode.string nt.content )
+        , ( "description", Encode.string nt.content )
         ]
-
-
-
--- *** *** *** N O T E *** *** ***
 
 
 postNote : Note -> Http.Request ()
@@ -142,7 +142,7 @@ decNote =
         (Decode.field "id" Decode.int)
         (Decode.field "folder" Decode.int)
         (Decode.field "title" Decode.string)
-        (Decode.field "content" Decode.string)
+        (Decode.field "description" Decode.string)
 
 
 decodeNote : Decoder (List Note)
@@ -150,9 +150,11 @@ decodeNote =
     Decode.list decNote
 
 
-getNotes : Http.Request (List Note)
-getNotes =
-    Http.get (hostNote ++ "?order=id") decodeNote
+getNotes : Int -> Http.Request (List Note)
+getNotes int =
+    Http.get
+        (hostNote ++ "?folder=eq." ++ toString (int))
+        decodeNote
 
 
 

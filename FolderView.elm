@@ -23,7 +23,7 @@ showFolders model =
                                         [ text fld.title
                                         , a [ class "secondary-content" ]
                                             [ a
-                                                [ onClick ViewNotes ]
+                                                [ onClick (GetNotes fld.id) ]
                                                 [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "details" ] ]
                                             ]
                                         ]

@@ -7,7 +7,9 @@ type alias Model =
     { nickname : String
     , password : String
     , folder : String
-    , note : String
+    , folderId : Int
+    , noteTitle : String
+    , noteDescription : String
     , folders : List Folder
     , notes : List Note
     , currentView : CurrentView
@@ -16,7 +18,7 @@ type alias Model =
 
 init : ( Model, Cmd msg )
 init =
-    ( Model "" "" "" "" [] [] MainView, Cmd.none )
+    ( Model "" "" "" 0 "" "" [] [] MainView, Cmd.none )
 
 
 type alias User =
@@ -48,14 +50,14 @@ type CurrentView
     | NoteView
     | CreateFolder
     | CreateNote
-    | NoteContent
+    | NoteContent Note
     | TryView (List User)
     | TryAgainView
 
 
 type Msg
     = Login
-    | Back
+      --| Back
     | SignUp
     | NewFolder
     | FolderTitle String
@@ -64,13 +66,16 @@ type Msg
     | Password String
     | ViewNotes
     | ViewFolders
+    | GetNotes Int
     | NewNote
     | NoteTitle String
+    | NoteDescription String
     | SubmitNote
     | Exit
-    | ShowNote
+    | ShowNote Note
     | RespGetUser (Result Http.Error (List User))
     | RespPostUser (Result Http.Error ())
     | RespPostFolder (Result Http.Error ())
     | RespPostNote (Result Http.Error ())
+    | RespGetNote (Result Http.Error (List Note))
     | RespGetFolder (Result Http.Error (List Folder))

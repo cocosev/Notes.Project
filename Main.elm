@@ -42,8 +42,8 @@ view model =
             CreateFolder ->
                 createFolder model
 
-            NoteContent ->
-                noteContent model
+            NoteContent note ->
+                noteContent note
 
             CreateNote ->
                 createNote model
@@ -121,20 +121,23 @@ update msg model =
         Password pw ->
             ( { model | password = pw }, Cmd.none )
 
+        GetNotes ls ->
+            ( { model | folderId = ls }, Http.send RespGetNote (getNotes ls) )
+
         ViewNotes ->
             ( { model | currentView = NoteView }, Cmd.none )
 
         NewNote ->
             ( { model | currentView = CreateNote }, Cmd.none )
 
-        ShowNote ->
-            ( { model | currentView = NoteContent }, Cmd.none )
+        ShowNote nt ->
+            ( { model | currentView = NoteContent nt }, Cmd.none )
 
         NewFolder ->
             ( { model | currentView = CreateFolder }, Cmd.none )
 
         Exit ->
-            ( { model | nickname = "", password = "", folder = "", folders = [], currentView = MainView }, Cmd.none )
+            ( { model | nickname = "", password = "", folder = "", folderId = 0, folders = [], currentView = MainView }, Cmd.none )
 
         RespPostUser (Ok ()) ->
             ( { model | currentView = FolderView }, Cmd.none )
@@ -149,7 +152,10 @@ update msg model =
             ( { model | folder = fld }, Cmd.none )
 
         NoteTitle nt ->
-            ( { model | note = nt }, Cmd.none )
+            ( { model | noteTitle = nt }, Cmd.none )
+
+        NoteDescription ls ->
+            ( { model | noteDescription = ls }, Cmd.none )
 
         SubmitFolder ->
             if (model.folder /= "") then
@@ -160,9 +166,9 @@ update msg model =
                 ( model, Cmd.none )
 
         SubmitNote ->
-            if (model.note /= "") then
+            if (model.noteTitle /= "" && model.noteDescription /= "") then
                 ( model
-                , Http.send RespPostNote (postNote (Note 0 0 model.nickname model.folder))
+                , Http.send RespPostNote (postNote (Note 0 model.folderId model.noteTitle model.noteDescription))
                 )
             else
                 ( model, Cmd.none )
@@ -176,7 +182,9 @@ update msg model =
             ( { model | currentView = ErrorView (toString error) }, Cmd.none )
 
         RespPostNote (Ok ()) ->
-            ( { model | currentView = NoteView }, Cmd.none )
+            ( model
+            , Http.send RespGetNote (getNotes model.folderId)
+            )
 
         RespPostNote (Err error) ->
             ( { model | currentView = ErrorView (toString error) }, Cmd.none )
@@ -187,11 +195,16 @@ update msg model =
         RespGetFolder (Err error) ->
             ( { model | currentView = ErrorView (toString error) }, Cmd.none )
 
-        _ ->
-            ( { model | currentView = FolderView }, Cmd.none )
+        RespGetNote (Ok ls) ->
+            ( { model | notes = ls, currentView = NoteView }, Cmd.none )
+
+        RespGetNote (Err error) ->
+            ( { model | currentView = ErrorView (toString error) }, Cmd.none )
 
 
 
+--    _ ->
+--        ( { model | currentView = FolderView }, Cmd.none )
 -- SUBSCRIPTIONS
 
 
