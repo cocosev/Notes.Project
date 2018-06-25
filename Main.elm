@@ -134,7 +134,7 @@ update msg model =
             ( { model | currentView = CreateFolder }, Cmd.none )
 
         Exit ->
-            ( { model | nickname = "", password = "", folders = [], currentView = MainView }, Cmd.none )
+            ( { model | nickname = "", password = "", folder = "", folders = [], currentView = MainView }, Cmd.none )
 
         RespPostUser (Ok ()) ->
             ( { model | currentView = FolderView }, Cmd.none )
@@ -168,7 +168,9 @@ update msg model =
                 ( model, Cmd.none )
 
         RespPostFolder (Ok ()) ->
-            ( { model | currentView = FolderView }, Cmd.none )
+            ( model
+            , Http.send RespGetUser (getUsers model)
+            )
 
         RespPostFolder (Err error) ->
             ( { model | currentView = ErrorView (toString error) }, Cmd.none )
