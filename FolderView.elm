@@ -25,6 +25,9 @@ showFolders model =
                                             [ a
                                                 [ onClick (GetNotes fld.id) ]
                                                 [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "details" ] ]
+                                            , a
+                                                [ onClick (Erase fld) ]
+                                                [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "delete" ] ]
                                             ]
                                         ]
                                 )

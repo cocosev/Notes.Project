@@ -53,6 +53,7 @@ type CurrentView
     | NoteContent Note
     | TryView (List User)
     | TryAgainView
+    | ErasingError
 
 
 type Msg
@@ -79,3 +80,7 @@ type Msg
     | RespPostNote (Result Http.Error ())
     | RespGetNote (Result Http.Error (List Note))
     | RespGetFolder (Result Http.Error (List Folder))
+    | Delete Note
+    | RespDelete (Result Http.Error ())
+    | Erase Folder
+    | RespErase (Result Http.Error ())

@@ -110,6 +110,19 @@ getFolders model =
         decodeFolder
 
 
+deleteFolder : Folder -> Http.Request ()
+deleteFolder nt =
+    Http.request
+        { method = "delete"
+        , url = hostFolder ++ "?id=eq." ++ toString nt.id
+        , body = Http.emptyBody
+        , headers = []
+        , expect = Http.expectStringResponse (\_ -> Ok ())
+        , timeout = Nothing
+        , withCredentials = False
+        }
+
+
 
 -- *** *** *** N O T E *** *** ***
 
@@ -157,22 +170,23 @@ getNotes int =
         decodeNote
 
 
+deleteNote : Note -> Http.Request ()
+deleteNote nt =
+    Http.request
+        { method = "delete"
+        , url = hostNote ++ "?id=eq." ++ toString nt.id
+        , body = Http.emptyBody
+        , headers = []
+        , expect = Http.expectStringResponse (\_ -> Ok ())
+        , timeout = Nothing
+        , withCredentials = False
+        }
 
--- holi
--- deleteTarea : Tarea -> Http.Request ()
--- deleteTarea tar =
---     Http.request
---         { method = "delete"
---         , url = host ++ "?id=eq." ++ toString tar.ide
---         , body = Http.emptyBody
---         , headers = []
---         , expect = Http.expectStringResponse (\_ -> Ok ())
---         , timeout = Nothing
---         , withCredentials = False
---         }
+
+
 --
 --
--- patchTarea : Tarea -> Http.Request ()
+-- patchNote : Tarea -> Http.Request ()
 -- patchTarea tar =
 --     Http.request
 --         { method = "PATCH"

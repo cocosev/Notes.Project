@@ -56,6 +56,9 @@ view model =
 
             TryAgainView ->
                 tryAgainView model
+
+            ErasingError ->
+                eraseFolderErrorView model
         ]
 
 
@@ -125,7 +128,7 @@ update msg model =
             ( { model | folderId = ls }, Http.send RespGetNote (getNotes ls) )
 
         ViewNotes ->
-            ( { model | currentView = NoteView }, Cmd.none )
+            ( { model | noteTitle = "", noteDescription = "", currentView = NoteView }, Cmd.none )
 
         NewNote ->
             ( { model | currentView = CreateNote }, Cmd.none )
@@ -146,7 +149,7 @@ update msg model =
             ( { model | currentView = ErrorView (toString error) }, Cmd.none )
 
         ViewFolders ->
-            ( { model | currentView = FolderView }, Cmd.none )
+            ( { model | noteTitle = "", noteDescription = "", folder = "", currentView = FolderView }, Cmd.none )
 
         FolderTitle fld ->
             ( { model | folder = fld }, Cmd.none )
@@ -174,7 +177,7 @@ update msg model =
                 ( model, Cmd.none )
 
         RespPostFolder (Ok ()) ->
-            ( model
+            ( { model | folder = "" }
             , Http.send RespGetUser (getUsers model)
             )
 
@@ -182,7 +185,7 @@ update msg model =
             ( { model | currentView = ErrorView (toString error) }, Cmd.none )
 
         RespPostNote (Ok ()) ->
-            ( model
+            ( { model | noteTitle = "", noteDescription = "" }
             , Http.send RespGetNote (getNotes model.folderId)
             )
 
@@ -201,11 +204,31 @@ update msg model =
         RespGetNote (Err error) ->
             ( { model | currentView = ErrorView (toString error) }, Cmd.none )
 
+        Delete nt ->
+            ( model
+            , Http.send RespDelete (deleteNote nt)
+            )
 
+        RespDelete result ->
+            case result of
+                Ok () ->
+                    update (GetNotes model.folderId) { model | noteTitle = "", noteDescription = "" }
 
---    _ ->
---        ( { model | currentView = FolderView }, Cmd.none )
--- SUBSCRIPTIONS
+                Err err ->
+                    ( { model | currentView = ErrorView (toString err) }, Cmd.none )
+
+        Erase fld ->
+            ( model
+            , Http.send RespErase (deleteFolder fld)
+            )
+
+        RespErase result ->
+            case result of
+                Ok () ->
+                    ( { model | folder = "" }, Http.send RespGetUser (getUsers model) )
+
+                Err err ->
+                    ( { model | currentView = ErasingError }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg

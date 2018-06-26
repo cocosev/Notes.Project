@@ -21,7 +21,7 @@ showNotes model =
                                     , a [ class "secondary-content" ]
                                         [ a [ onClick (ShowNote nt) ] [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "details" ] ]
                                         , a
-                                            []
+                                            [ onClick (Delete nt) ]
                                             [ i [ class "material-icons", style [ ( "color", "teal" ) ] ] [ text "delete" ] ]
                                         ]
                                     ]

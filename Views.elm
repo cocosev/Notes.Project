@@ -3,6 +3,7 @@ module Views exposing (..)
 import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
+import Html.Events exposing (onClick)
 
 
 --import Html.Events exposing (onInput, onClick)
@@ -52,8 +53,35 @@ tryAgainView model =
                     [ div [ class "card-title text center" ] [ text "We are sorry" ]
                     , div [ class "card-content text center" ]
                         [ text "The user name that you are trying to introduce does not exist or maybe your password is incorrect"
+                        , div
+                            [ class "centered" ]
+                            [ div [ class "btn waves-effect waves-light", onClick (Exit) ]
+                                [ text "Back" ]
+                            ]
                         ]
-                    , div [] [ text (toString model) ]
+                    ]
+                ]
+            ]
+        ]
+
+
+eraseFolderErrorView : Model -> Html Msg
+eraseFolderErrorView model =
+    div []
+        [ div [ class "row" ] []
+        , div [ class "row" ] []
+        , div [ class "row" ]
+            [ div [ class "col s6 offset-s3" ]
+                [ div [ class "card pink lighten-4 ", style [ ( "padding", "10px" ) ] ]
+                    [ div [ class "card-title text center" ] [ text "We are sorry" ]
+                    , div [ class "card-content text center" ]
+                        [ text "You cannot delete a folder that is not empty"
+                        , div
+                            [ class "centered" ]
+                            [ div [ class "btn waves-effect waves-light", onClick (ViewFolders) ]
+                                [ text "Back" ]
+                            ]
+                        ]
                     ]
                 ]
             ]
